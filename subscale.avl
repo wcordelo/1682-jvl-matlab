@@ -1,0 +1,173 @@
+Sub-scale_demonstrator
+#Mach
+0.00
+#IYsym   IZsym   Zsym
+0        0       0.00
+#Sref    Cref    Bref
+13.81    1.48    9.33
+#Xref    Yref    Zref
+0.81     0.00    0.00
+#
+#
+
+#==========================================================
+SURFACE
+Wing Section 1
+#Nchordwise  Cspace   Nspanwise   Sspace
+12           1.0      12           1.0
+#
+COMPONENT
+1
+#
+YDUPLICATE
+0.0
+#
+ANGLE
+0.0
+#
+JET
+#Jname  Jgain  SgnDup   hjet   Nchordwise  Cspace
+CJet    1.0    +1.0     0.34   12          1.0
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+0.00    0.00    0.00    1.48    0.0   0          0
+
+NACA
+2416
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+flap     1.0    0.65    0.0 0.0 0.0  +1.0
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+0.00    3.11    0.00    1.48    0.0   0          0
+
+NACA
+2416
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+flap     1.0    0.65    0.0 0.0 0.0  +1.0
+
+#==========================================================
+SURFACE
+Wing Section 2
+#Nchordwise  Cspace   Nspanwise   Sspace
+12           1.0      6           1.0
+#
+COMPONENT
+1
+#
+YDUPLICATE
+0.0
+#
+ANGLE
+0.0
+#
+JET
+#Jname  Jgain  SgnDup   hjet   Nchordwise  Cspace
+CJet    1.0    +1.0     0.34   12          1.0
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+0.00    3.11    0.00    1.48    0.0   0          0
+
+NACA
+2416
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+aileron  1.0    0.65    0.0 0.0 0.0  -1.0
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+0.00    4.67    0.00    1.48    0.0   0          0
+
+NACA
+2416
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+aileron  1.0    0.65    0.0 0.0 0.0  -1.0
+
+#==========================================================
+SURFACE
+Horizontal Stabilizer
+#Nchordwise  Cspace   Nspanwise   Sspace
+8            1.0      8           1.0
+#
+COMPONENT
+2
+#
+YDUPLICATE
+0.0
+#
+ANGLE
+-1.0
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+8.13   0.00   -0.15    1.07    0.0   0          0
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+elevator 1.0    0.60    0.0 0.0 0.0  +1.0
+
+NACA
+0012
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+8.35   1.92   -0.15    0.86    0.0   0          0
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+elevator 1.0    0.60    0.0 0.0 0.0  +1.0
+
+NACA
+0012
+
+#==========================================================
+SURFACE
+Vertical Stabilizer
+#Nchordwise  Cspace   Nspanwise   Sspace
+8            1.0      8           1.0
+#
+COMPONENT
+3
+#
+ANGLE
+0.0
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+7.57   0.00   -0.15    1.67    0.0   0          0
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+rudder   1.0    0.60    0.0 0.0 0.0  +1.0
+
+NACA
+0012
+
+#----------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc  Nspanwise  Sspace
+8.73   0.00   1.23    1.09    0.0   0          0
+
+CONTROL
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+rudder   1.0    0.60    0.0 0.0 0.0  +1.0
+
+NACA
+0012
+
