@@ -1,48 +1,69 @@
+clear all;
+clc;
 fid = fopen('1171191001171019911010348118122118');
 tline = fgetl(fid);
 alpha = [];
-i = 1 
+
+iAlpha = 1 
 while ischar(tline)
-    
-%     disp(tline)
     if strfind(tline, 'Alpha')
         alphaExp = 'Alpha =   ';
         [aMatch,aNoMatch] = regexp(tline,alphaExp,'match','split')
-        alpha()
+        alpha(iAlpha) = str2double(aNoMatch{1,2}(1:5))
+        iAlpha = iAlpha + 1;
     end
     
-    
     tline = fgetl(fid);
-    i =
+ 
 end
 fclose(fid);
 
-str = 'Alpha =   9.00000     pb/2V =  -0.00000 ';
-expression = 'Alpha =   ';
-[match,noMatch] = regexp(str,expression,'match','split')
-% 
-% fid=fopen('1171191001171019911010348118122118');
-% tline = fgetl(fid);
-% tlines = cell(0,1);
-% while ischar(tline)
-%     tlines{end+1,1} = tline;
-%     tline = fgetl(fid);
-% end
-% fclose(fid);
-% % Find the tlines with equations on them
-% eqnLines = regexp(tlines,'.*->.*','match','once')
-% eqnLineMask = ~cellfun(@isempty, eqnLines)
-% % Convert the non equation lines to the second numeric value
-% for i = find(~eqnLineMask)'
-%     bothNumbers = str2num(tlines{i});
-%     tlines{i} = bothNumbers(2);
-% end
-% % Make blocks with the equation in the first cell
-% blocks = cell(nnz(eqnLineMask),2);
-% blocks(:,1) = tlines(eqnLineMask);
-% % And the numbers in an array in the second cell
-% eqnLineNos = [find(eqnLineMask); length(tlines)+1];
-% for i = 1:length(eqnLineNos)-1
-%     inds = eqnLineNos(i)+1 : eqnLineNos(i+1)-1;
-%     blocks{i,2} = cell2mat(tlines(inds));
-% end
+%% Example of parsing xml file
+fid = fopen('c172p.xml');
+tline = fgetl(fid);
+alpha = [];
+
+iAlpha = 1 
+while ischar(tline)
+%     disp(tline)
+    filestart = false;
+    if strfind(tline, 'Change_in_CX_due_to_blowing_and_flaps')
+        disp(tline)
+        filestart = true;
+%         while filestrart !== false
+            
+%         end
+    end
+%     if strfind(tline, 'Alpha')
+%         alphaExp = 'Alpha =   ';
+%         [aMatch,aNoMatch] = regexp(tline,alphaExp,'match','split')
+%         alpha(iAlpha) = str2double(aNoMatch{1,2}(1:5))
+%         iAlpha = iAlpha + 1;
+%     end
+    
+    tline = fgetl(fid);
+ 
+end
+fclose(fid);
+
+% c172xml = xml2struct('c172p.xml')
+% testxml = xml2struct('test.xml') --> Doesn't Work.
+
+% 1. read an xml file and store it into z :
+z = xmltools('c172p.xml')
+z1 = xmltools
+
+
+% 2. write z into the file :
+% xmltools(z,'test.xml')
+
+% 3. returns only subset of z child which name is tag-name :
+% xmltools(z,'get','tag-name')
+
+% and now:
+
+% 4. returns only subset of z child which attrib is attrib-name :
+% xmltools(z,'get-attrib', 'attrib-name')
+
+% 5. returns only attribs/value or children of subset of z child which name is tag-name :
+% xmltools(z,'get','tag-name', 'attribs'|'value'|'child');

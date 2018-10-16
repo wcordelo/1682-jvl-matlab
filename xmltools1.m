@@ -210,9 +210,6 @@ while ~eot & ~isempty(udeblank(deblank(str)))
   
   f_end = strfind(str, '</');
   f_beg = strfind(str, '<');
-%   f_comment_beg = strfind(str, '');
-%   f_comment_end = strfind(str, '');
-  
   
   %< Si je n'ai plus de tag dans mon document
   if isempty(f_end) & isempty(f_beg)
