@@ -26,7 +26,13 @@ alpha = [];
 iAlpha = 1 
 while ischar(tline)
     disp(tline)
-    if strfind(tt)
+    filestart = false;
+    if strfind(tline, 'Change_in_CX_due_to_blowing_and_flaps')
+        filestart = true;
+        while filestrart !== false
+            
+        end
+    end
 %     if strfind(tline, 'Alpha')
 %         alphaExp = 'Alpha =   ';
 %         [aMatch,aNoMatch] = regexp(tline,alphaExp,'match','split')
