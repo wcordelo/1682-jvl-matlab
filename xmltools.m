@@ -210,9 +210,8 @@ while ~eot & ~isempty(udeblank(deblank(str)))
   
   f_end = strfind(str, '</');
   f_beg = strfind(str, '<');
-%   f_comment_beg = strfind(str, '');
-%   f_comment_end = strfind(str, '');
-  
+  f_comment_beg = strfind(str, '<!--');
+  f_comment_end = strfind(str, '-->');
   
   %< Si je n'ai plus de tag dans mon document
   if isempty(f_end) & isempty(f_beg)
@@ -230,11 +229,21 @@ while ~eot & ~isempty(udeblank(deblank(str)))
   if isempty(f_end)
     f_end = length(str)
   else
+    % Ignores XML comments
+    if ~isempty(f_comment_end)
+        f_end = setdiff(f_end, f_comment_end);
+    end
+    
     f_end = f_end(1);
   end
   if isempty(f_beg)
     f_beg = length(str)
   else
+     % Ignores XML comments
+    if ~isempty(f_comment_beg)
+        f_beg = setdiff(f_beg, f_comment_beg);
+    end
+    
     f_beg = f_beg(1);
   end
   

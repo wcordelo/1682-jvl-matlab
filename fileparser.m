@@ -4,12 +4,12 @@ fid = fopen('1171191001171019911010348118122118');
 tline = fgetl(fid);
 alpha = [];
 
-iAlpha = 1 
+iAlpha = 1;
 while ischar(tline)
     if strfind(tline, 'Alpha')
         alphaExp = 'Alpha =   ';
-        [aMatch,aNoMatch] = regexp(tline,alphaExp,'match','split')
-        alpha(iAlpha) = str2double(aNoMatch{1,2}(1:5))
+        [aMatch,aNoMatch] = regexp(tline,alphaExp,'match','split');
+        alpha(iAlpha) = str2double(aNoMatch{1,2}(1:5));
         iAlpha = iAlpha + 1;
     end
     
@@ -23,12 +23,12 @@ fid = fopen('c172p.xml');
 tline = fgetl(fid);
 alpha = [];
 
-iAlpha = 1 
+iAlpha = 1; 
 while ischar(tline)
 %     disp(tline)
     filestart = false;
     if strfind(tline, 'Change_in_CX_due_to_blowing_and_flaps')
-        disp(tline)
+        disp(tline);
         filestart = true;
 %         while filestrart !== false
             
@@ -51,8 +51,6 @@ fclose(fid);
 
 % 1. read an xml file and store it into z :
 z = xmltools('c172p.xml')
-% z1 = xmltools('c172p.xml')
-
 
 % 2. write z into the file :
 % xmltools(z,'test.xml')

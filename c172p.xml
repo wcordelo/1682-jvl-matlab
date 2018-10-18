@@ -576,7 +576,6 @@
             </orient>
             <feed>2</feed> <!-- from intermediate tank (float chamber 2) -->
             <thruster file="prop_75in2f">
-            <!-- <thruster file="prop_75in_2f_NACA_15-30deg"> --> <!-- for settling -->
                 <location unit="IN">
                     <x> -37.7 </x>
                     <y> 0 </y>
@@ -605,7 +604,6 @@
             </orient>
             <feed>3</feed> <!-- from intermediate tank (float chamber 3) -->
             <thruster file="prop_76in2f_NACA_20deg">
-            <!-- <thruster file="prop_76in2f_NACA_15-25deg"> --> <!-- for settling -->
                 <location unit="IN">
                     <x> -37.7 </x>
                     <y> 0 </y>
@@ -849,7 +847,7 @@
                 <default value="fcs/flap-cmd-norm"/>
                 <output>fcs/flap-input-norm</output>
 
-                <!-- Route back the (normalized) output of the <kinematic>
+                <!-- Route back the (normalized) output of the kinematic
                      to its input in order to disable it.
                 -->
                 <test logic="AND" value="fcs/flap-pos-norm">
@@ -973,7 +971,7 @@
             <switch name="Gear Command">
                 <default value="gear/gear-cmd-norm"/>
                 <output>gear/gear-input-norm</output>
-                <!-- Route back the (normalized) output of the <kinematic>
+                <!-- Route back the (normalized) output of the kinematic
                      to its input in order to disable it.
                 -->
                 <test logic="AND" value="gear/gear-pos-norm">
@@ -1518,17 +1516,6 @@
                     <property>aero/bi2vel</property>
                     <property>velocities/p-aero-rad_sec</property>
                     <value>-0.484</value>
-                    <!--
-                          stall and spin (2):
-                          less roll damping
-                      <table>
-                        <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
-                        <tableData>
-                           0.279    1
-                           0.297    0.4
-                        </tableData>
-                      </table>
-                      -->
                 </product>
             </function>
 
@@ -2024,7 +2011,7 @@
             <direction>
                 <!-- These are dummy values. They are ignored by FlightGear.
                      Their purpose is to avoid JSBSim display warning messages
-                     about <direction> not being specified.
+                     about direction not being specified.
                      -->
                 <x>1.0</x>
                 <y>0.0</y>
@@ -2035,7 +2022,7 @@
             <direction>
                 <!-- These are dummy values. They are ignored by FlightGear.
                      Their purpose is to avoid JSBSim display warning messages
-                     about <direction> not being specified.
+                     about direction not being specified.
                      -->
                 <x>1.0</x>
                 <y>0.0</y>
@@ -2097,30 +2084,5 @@
 
     <!-- Mooring setup for FlightGear. -->
     <system file="mooring-jsbsim"/>
-
-    <!--
-    <output name="JSBout172C.csv" type="CSV" rate="60">
-      <property> aero/qbar-psf </property>
-      <property> accelerations/udot-ft_sec2 </property>
-      <property> accelerations/vdot-ft_sec2 </property>
-      <property> accelerations/wdot-ft_sec2 </property>
-      <property> accelerations/a-pilot-x-ft_sec2 </property>
-      <property> accelerations/a-pilot-y-ft_sec2 </property>
-      <property> accelerations/a-pilot-z-ft_sec2 </property>
-      <property> accelerations/n-pilot-x-norm    </property>
-      <property> accelerations/n-pilot-y-norm    </property>
-      <property> accelerations/n-pilot-z-norm    </property>
-      <rates> ON </rates>
-      <velocities> ON </velocities>
-      <forces> ON </forces>
-      <moments> ON </moments>
-      <position> ON </position>
-      <fcs> OFF </fcs>
-      <propulsion> OFF </propulsion>
-      <aerosurfaces> OFF </aerosurfaces>
-      <fcs> OFF </fcs>
-      <ground_reactions> OFF </ground_reactions>
-    </output>
-    -->
 
 </fdm_config>
