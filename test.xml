@@ -1,8 +1,8 @@
   <?xml VERSION="1.0"?>
   <?xml-stylesheet TYPE="text/xsl" HREF="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
   <FDM_CONFIG NAME="c172" VERSION="2.0" RELEASE="BETA"
-" XMLNS:XSI="http://www.w3.org/2001/XMLSchema-instance"
-" XSI:NONAMESPACESCHEMALOCATION="http://jsbsim.sourceforge.net/JSBSim.xsd">
+      XMLNS:XSI="http://www.w3.org/2001/XMLSchema-instance"
+      XSI:NONAMESPACESCHEMALOCATION="http://jsbsim.sourceforge.net/JSBSim.xsd">
   <!--
             Cessna 172P Skyhawk 1982 (160hp) POH p.6-10, Weight and Moment:
             **Basic Empty** (= with full oil) 1467 lbs, 57300 lb-ins. Gives CG at 39.06 ins.

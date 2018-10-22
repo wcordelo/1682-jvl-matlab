@@ -24,14 +24,14 @@ end
 avlin   = ['LOAD ' config '.avl'];
 massin  = ['MASS ' config '.mass'];
 % fileout = [config '_' num2str(i) '_' num2str(j) '_' num2str(k) '.txt'];
-fileout = [config  num2str(i) num2str(j) num2str(k) '.txt']
+fileout = [config  num2str(k) num2str(j) num2str(i) '.txt']
 
-Ain     = ['A A ' num2str(alpha(i))];
+Ain     = ['A A ' num2str(alpha(k))];
 D1in    = ['D1 D1 ' num2str(flap)];
 D2in    = ['D2 D2 ' num2str(aile)];
 D3in    = ['D3 D3 ' num2str(elev)];
 D4in    = ['D4 D4 ' num2str(rudd)];
-J1in    = ['J1 JJ ' num2str(cjet(k))];
+J1in    = ['J1 JJ ' num2str(cjet(i))];
 
 % Input commands
 command{1,:}    = avlin;        % Read configuration input file
@@ -52,7 +52,6 @@ command{15,:}   = 'W';          % Write forces to file
 command{16,:}   = fileout;     % Enter forces output file
 command{17,:}   = ' ';          % Return
 command{18,:}   = 'Q';          % Quit JVL
-
 
 % Write input command file (ASCII-delimited)
 for i=1:length(command)

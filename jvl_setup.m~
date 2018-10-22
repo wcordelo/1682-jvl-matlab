@@ -1,0 +1,217 @@
+
+%--------------------------------------------------------------------
+% Setup JVL parameter sweeps
+%
+% Make sure config.avl and config.mass files in same folder
+%
+% Single flap across span assumed in this version
+% 
+% Paste below into command window if needed to add JVL to system path
+%   path1 = getenv('PATH');
+%   path1 = [path1 ':/usr/local/bin']; % change as needed for system
+%   setenv('PATH', path1);
+%   !echo $PATH
+% 
+%--------------------------------------------------------------------
+
+% clear
+clear all;
+clc;
+
+close all;
+set(0,'DefaultAxesFontSize',18);
+set(0,'DefaultTextFontSize',24);
+% clc
+% set(0,'DefaultAxesFontSize',18);
+% set(0,'DefaultTextFontSize',24);
+% set(0,'DefaultAxesFontName','Arial');
+% set(0,'DefaultTextFontName','Arial');
+% set(0,'DefaultLineLineWidth',3);
+% set(0,'DefaultAxesFontWeight','Bold');
+% set(0, 'DefaultFigurePosition', [2641 -29 960 984])
+% set(0, 'DefaultFigurePosition', [2641 -29 1920 984])
+
+% load ('constants.mat')
+
+% Parameters for evaluation
+config  = 'subscale';
+% alpha   = 2; % angle of attack sweep range [deg]
+% flap    = 20; % flap angle sweep range [deg]
+% cjet    = 10; % Delta CJ sweep range [-]
+% alpha   = [0 2 4 6 8 10]; % angle of attack sweep range [deg]
+% flap    = [0 20 40]; % flap angle sweep range [deg]
+% cjet    = [0.34 8.86 20.86 36.07]; % Delta CJ sweep range [-]
+% alpha   = [0 1 2 3 4 5 6 7 8 9 10]; % angle of attack sweep range [deg]
+% flap    = [0 10 20 30 40 50]; % flap angle sweep range [deg]
+
+alpha   = [-10:1:10]; % deg
+% alpha = [0:1:3];
+% flap = [-60, 60];
+flap    = [60:-5:-60]; % deg
+aile    = 0; % deg
+elev    = 0; % deg
+rudd    = 0; % deg
+% cjet = [5, 10];
+cjet    = [0:1:10]; % Delta CJ sweep range [-]
+
+% Parameter and output arrays setup
+swp3    = length(alpha);
+swp2    = length(flap);
+swp1    = length(cjet);
+CJtot   = zeros(swp1,swp2,swp3);
+CXtot   = zeros(swp1,swp2,swp3);
+CYtot   = zeros(swp1,swp2,swp3);
+CZtot   = zeros(swp1,swp2,swp3);
+CLtot   = zeros(swp1,swp2,swp3);
+CDtot   = zeros(swp1,swp2,swp3);
+CLcir   = zeros(swp1,swp2,swp3);
+CLjet   = zeros(swp1,swp2,swp3);
+CDind   = zeros(swp1,swp2,swp3);
+CDjet   = zeros(swp1,swp2,swp3);
+CDvis   = zeros(swp1,swp2,swp3);
+
+% Sweep parameters
+for i = 1:swp1
+    for j = 1:swp2
+        for k = 1:swp3
+            
+            [fileout] = jvl_run(config,alpha(k),flap(j),aile,elev,rudd,cjet(i),i,j,k) % run JVL
+            
+            fileID = fopen(fileout,'r'); % open output file
+            
+            % Obtain first line of file
+            tline = fgetl(fileID);
+            
+            % While Loop that parses entire file and obtains values needed
+            while ischar(tline)
+                
+                % Parse File and Place Value to CLtot
+                if strfind(tline, 'CLtot')
+                    clExp = 'CLtot =   ';
+                    [clMatch,clNoMatch] = regexp(tline,clExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(clNoMatch) == 2 
+                        CLtot(i, j, k) = str2double(clNoMatch{1,2}(1:7));
+                    else
+                        CLtot(i, j, k) = str2double(clNoMatch{1,1}(11:18));
+                    end
+                end
+                
+                % Parse File and Place Value to CJtot
+                if strfind(tline, 'CJtot')
+                    cjtotExp = 'CJtot =   ';
+                    [cjtotMatch,cjtotNoMatch] = regexp(tline,cjtotExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(cjtotNoMatch) == 2 
+                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,2}(1:7));
+                    else
+                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,1}(11:18));
+                    end
+                end
+                
+                % Parse File and Place Value to CJet
+                if strfind(tline, 'CJet')
+                    cjetExp = 'CJet            =   ';
+                    [cjtotMatch,cjtotNoMatch] = regexp(tline,cjtotExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(cjtotNoMatch) == 2 
+                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,2}(1:7));
+                    else
+                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,1}(11:18));
+                    end
+                end
+                
+                % Parse File and Place Value to CXtot          
+                if strfind(tline, 'CXtot')
+                    cxExp = 'CXtot =  ';
+                    [cxMatch,cxNoMatch] = regexp(tline,cxExp,'match','split');
+                    CXtot(i, j, k) = str2double(cxNoMatch{1,2}(1:7));
+                end
+                
+                if strfind(tline, 'CYtot')
+                    cyExp = 'CYtot =  ';
+                    [cyMatch,cyNoMatch] = regexp(tline,cyExp,'match','split');
+                    CYtot(i, j, k) = str2double(cyNoMatch{1,2}(1:7));
+                end
+                
+                if strfind(tline, 'CZtot')
+                    czExp = 'CZtot =  ';
+                    [czMatch,czNoMatch] = regexp(tline,czExp,'match','split');
+                    CZtot(i, j, k) = str2double(czNoMatch{1,2}(1:7));
+                end
+                
+                if strfind(tline, 'CDtot')
+                    cdExp = 'CDtot =   ';
+                    [cdMatch,cdNoMatch] = regexp(tline,cdExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(cdNoMatch) == 2
+                        CDtot(i, j, k) = str2double(cdNoMatch{1,2}(1:7));
+                    else
+                        CDtot(i, j, k) = str2double(cdNoMatch{1,1}(11:18));
+                    end
+                    
+                end
+                
+                if strfind(tline, 'CLcir')
+                    clcirExp = 'CLcir =   ';
+                    [clcirMatch,clcirNoMatch] = regexp(tline,clcirExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(clcirNoMatch) == 2
+                        CLcir(i, j, k) = str2double(clcirNoMatch{1,2}(1:7));
+                    else
+                        CLcir(i, j, k) = str2double(clcirNoMatch{1,1}(11:18));
+                    end
+                    
+                end
+                
+                if strfind(tline, 'CLjet')
+                    cljetExp = 'CLjet =   ';
+                    [cljetMatch,cljetNoMatch] = regexp(tline,cljetExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(cljetNoMatch) == 2
+                        CLjet(i, j, k) = str2double(cljetNoMatch{1,2}(1:7));
+                    else
+                        CLjet(i, j, k) = str2double(cljetNoMatch{1,1}(11:18));
+                    end
+                    
+                end
+                
+                if strfind(tline, 'CDind')
+                    cdindExp = 'CDind =   ';
+                    [cdindMatch,cdindNoMatch] = regexp(tline,cdindExp,'match','split');
+                    CDind(i, j, k) = str2double(cdindNoMatch{1,2}(1:7));
+                end
+                
+                if strfind(tline, 'CDjet')
+                    cdjetExp = 'CDjet =   ';
+                    [cdjetMatch,cdjetNoMatch] = regexp(tline,cdjetExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsingﬂ
+                    if length(cdjetNoMatch) == 2
+                        CDjet(i, j, k) = str2double(cdjetNoMatch{1,2}(1:7));
+                    else
+                        CDjet(i, j, k) = str2double(cdjetNoMatch{1,1}(11:18));
+                    end
+                    
+                end
+                
+                if strfind(tline, 'CDvis')
+                    cdvisExp = 'CDvis =   ';
+                    [cdvisMatch,cdvisNoMatch] = regexp(tline,cdvisExp,'match','split');
+                    CDvis(i, j, k) = str2double(cdvisNoMatch{1,2}(1:7));
+                end
+                               
+                tline = fgetl(fileID);
+            end
+            
+            fclose(fileID); % close output file
+    
+        end
+    end
+end

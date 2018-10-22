@@ -24,14 +24,14 @@ end
 avlin   = ['LOAD ' config '.avl'];
 massin  = ['MASS ' config '.mass'];
 % fileout = [config '_' num2str(i) '_' num2str(j) '_' num2str(k) '.txt'];
-fileout = [config  num2str(i) num2str(j) num2str(k) '.txt']
+fileout = [config  num2str(k) num2str(j) num2str(i) '.txt']
 
-Ain     = ['A A ' num2str(alpha(i))];
+Ain     = ['A A ' num2str(alpha)];
 D1in    = ['D1 D1 ' num2str(flap)];
 D2in    = ['D2 D2 ' num2str(aile)];
 D3in    = ['D3 D3 ' num2str(elev)];
 D4in    = ['D4 D4 ' num2str(rudd)];
-J1in    = ['J1 JJ ' num2str(cjet(k))];
+J1in    = ['J1 JJ ' num2str(cjet)];
 
 % Input commands
 command{1,:}    = avlin;        % Read configuration input file
