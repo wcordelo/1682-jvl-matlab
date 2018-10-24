@@ -58,6 +58,7 @@ cjet    = [0:1:10]; % Delta CJ sweep range [-]
 swp3    = length(alpha);
 swp2    = length(flap);
 swp1    = length(cjet);
+CJet = zeros(swp1,swp2,swp3);
 CJtot   = zeros(swp1,swp2,swp3);
 CXtot   = zeros(swp1,swp2,swp3);
 CYtot   = zeros(swp1,swp2,swp3);
@@ -90,7 +91,7 @@ for i = 1:swp1
                     clExp = 'CLtot =   ';
                     [clMatch,clNoMatch] = regexp(tline,clExp,'match','split');
                     
-                    % Needed to account for discrepancy in file parsingﬂ
+                    % Needed to account for discrepancy in file parsing
                     if length(clNoMatch) == 2 
                         CLtot(i, j, k) = str2double(clNoMatch{1,2}(1:7));
                     else
@@ -103,7 +104,7 @@ for i = 1:swp1
                     cjtotExp = 'CJtot =   ';
                     [cjtotMatch,cjtotNoMatch] = regexp(tline,cjtotExp,'match','split');
                     
-                    % Needed to account for discrepancy in file parsingﬂ
+                    % Needed to account for discrepancy in file parsing
                     if length(cjtotNoMatch) == 2 
                         CJtot(i, j, k) = str2double(cjtotNoMatch{1,2}(1:7));
                     else
@@ -114,13 +115,13 @@ for i = 1:swp1
                 % Parse File and Place Value to CJet
                 if strfind(tline, 'CJet')
                     cjetExp = 'CJet            =   ';
-                    [cjtotMatch,cjtotNoMatch] = regexp(tline,cjtotExp,'match','split');
+                    [cjetMatch,cjetNoMatch] = regexp(tline,cjetExp,'match','split');
                     
-                    % Needed to account for discrepancy in file parsingﬂ
-                    if length(cjtotNoMatch) == 2 
-                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,2}(1:7));
+                    % Needed to account for discrepancy in file parsing
+                    if length(cjetNoMatch) == 2 
+                        CJet(i, j, k) = str2double(cjetNoMatch{1,2}(1:7));
                     else
-                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,1}(11:18));
+                        CJet(i, j, k) = str2double(cjetNoMatch{1,1}(11:18));
                     end
                 end
                 
@@ -128,7 +129,14 @@ for i = 1:swp1
                 if strfind(tline, 'CXtot')
                     cxExp = 'CXtot =  ';
                     [cxMatch,cxNoMatch] = regexp(tline,cxExp,'match','split');
-                    CXtot(i, j, k) = str2double(cxNoMatch{1,2}(1:7));
+                    
+                    % Needed to account for discrepancy in file parsing
+                    if length(cxNoMatch) == 2 
+                        CXtot(i, j, k) = str2double(cxNoMatch{1,2}(1:7));
+                    else
+                        CXtot(i, j, k) = str2double(cxNoMatch{1,1}(11:18));
+                    end
+%                     CXtot(i, j, k) = str2double(cxNoMatch{1,2}(1:7));
                 end
                 
                 if strfind(tline, 'CYtot')
@@ -147,7 +155,7 @@ for i = 1:swp1
                     cdExp = 'CDtot =   ';
                     [cdMatch,cdNoMatch] = regexp(tline,cdExp,'match','split');
                     
-                    % Needed to account for discrepancy in file parsingﬂ
+                    % Needed to account for discrepancy in file parsing
                     if length(cdNoMatch) == 2
                         CDtot(i, j, k) = str2double(cdNoMatch{1,2}(1:7));
                     else
@@ -160,7 +168,7 @@ for i = 1:swp1
                     clcirExp = 'CLcir =   ';
                     [clcirMatch,clcirNoMatch] = regexp(tline,clcirExp,'match','split');
                     
-                    % Needed to account for discrepancy in file parsingﬂ
+                    % Needed to account for discrepancy in file parsing
                     if length(clcirNoMatch) == 2
                         CLcir(i, j, k) = str2double(clcirNoMatch{1,2}(1:7));
                     else
@@ -192,7 +200,7 @@ for i = 1:swp1
                     cdjetExp = 'CDjet =   ';
                     [cdjetMatch,cdjetNoMatch] = regexp(tline,cdjetExp,'match','split');
                     
-                    % Needed to account for discrepancy in file parsingﬂ
+                    % Needed to account for discrepancy in file parsing
                     if length(cdjetNoMatch) == 2
                         CDjet(i, j, k) = str2double(cdjetNoMatch{1,2}(1:7));
                     else
@@ -215,3 +223,5 @@ for i = 1:swp1
         end
     end
 end
+
+save polardata.mat CLtot CXtot CJtot flap alpha
