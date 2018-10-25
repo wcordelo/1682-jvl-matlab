@@ -1,0 +1,18 @@
+LOAD subscale.avl
+MASS subscale.mass
+OPER
+A A 3
+D1 D1 60
+D2 D2 0
+D3 D3 0
+D4 D4 0
+J1 JJ 14
+O
+P
+T T F F
+ 
+X
+W
+subscale1911.txt
+ 
+Q

@@ -47,7 +47,7 @@ config  = 'subscale';
 alpha   = [-15:1:15]; % deg
 % alpha = [0:1:3];
 % flap = [-60, 60];
-flap    = [60:-5:-60]; % deg
+flap    = [-10:5:90]; % deg
 aile    = 0; % deg
 elev    = 0; % deg
 rudd    = 0; % deg
@@ -70,6 +70,7 @@ CLjet   = zeros(swp1,swp2,swp3);
 CDind   = zeros(swp1,swp2,swp3);
 CDjet   = zeros(swp1,swp2,swp3);
 CDvis   = zeros(swp1,swp2,swp3);
+CM
 
 % Sweep parameters
 for i = 1:swp1
