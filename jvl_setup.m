@@ -70,7 +70,7 @@ CLjet   = zeros(swp1,swp2,swp3);
 CDind   = zeros(swp1,swp2,swp3);
 CDjet   = zeros(swp1,swp2,swp3);
 CDvis   = zeros(swp1,swp2,swp3);
-CM
+Cmtot = zeros(swp1,swp2,swp3);
 
 % Sweep parameters
 for i = 1:swp1
@@ -168,6 +168,20 @@ for i = 1:swp1
 %                     CZtot(i, j, k) = str2double(czNoMatch{1,2}(1:7));
                 end
                 
+                if strfind(tline, 'Cmtot')
+                    cmExp = 'Cmtot =  ';
+                    [cmMatch,cmNoMatch] = regexp(tline,cmExp,'match','split');
+                    
+                    % Needed to account for discrepancy in file parsing
+                    if length(cmNoMatch) == 2 
+                        Cmtot(i, j, k) = str2double(cmNoMatch{1,2}(1:7));
+                    else
+                        Cmtot(i, j, k) = str2double(cmNoMatch{1,1}(11:18));
+                    end
+                    
+%                     CZtot(i, j, k) = str2double(czNoMatch{1,2}(1:7));
+                end
+                
                 if strfind(tline, 'CDtot')
                     cdExp = 'CDtot =   ';
                     [cdMatch,cdNoMatch] = regexp(tline,cdExp,'match','split');
@@ -257,4 +271,4 @@ for i = 1:swp1
     end
 end
 
-save polardata.mat CLtot CXtot CJtot flap alpha
+save polardata2.mat CLtot CXtot CJtot Cmtot flap alpha

@@ -1,9 +1,9 @@
 clear all;
 clc;
-fid = fopen('1171191001171019911010348118122118');
-fid1 = fopen('13914112213912312113212570140144140');
+fid = fopen('subtxtfiles1/subscale8202.txt');
+% fid1 = fopen('13914112213912312113212570140144140');
 tline = fgetl(fid);
-tline1 = fgetl(fid1);
+% tline1 = fgetl(fid1);
 alpha = [];
 
 
@@ -21,9 +21,11 @@ aeroCat = {'CL', 'CX', 'CJ', 'd_flap', 'alpha'}
 swp1    = length(alpha);
 swp2    = length(flap);
 swp3    = length(cjet);
-CJtot   = zeros(swp3,swp2,swp1)
-CXtot   = zeros(swp3,swp2,swp1)
-CLtot   = zeros(swp3,swp2,swp1)
+CJtot   = zeros(swp3,swp2,swp1);
+CXtot   = zeros(swp3,swp2,swp1);
+CLtot   = zeros(swp3,swp2,swp1);
+Cmtot = zeros(swp3,swp2,swp1);
+
 
 %% Need to create a 3D array --> Start with 2D Array and extend
 % Current implementation includes: 
@@ -56,6 +58,8 @@ while ischar(tline)
     if strfind(tline, 'CLtot')
         clExp = 'CLtot =   ';
         [clMatch,clNoMatch] = regexp(tline,clExp,'match','split');        
+        clMatch
+        clNoMatch
         CLtot(iCJ, iflap, iAlpha) = str2double(clNoMatch{1,2}(1:7));
     end
     
@@ -63,6 +67,14 @@ while ischar(tline)
         cxExp = 'CXtot =  ';
         [cxMatch,cxNoMatch] = regexp(tline,cxExp,'match','split');
         CXtot(iCJ, iflap, iAlpha) = str2double(cxNoMatch{1,2}(1:7));
+    end
+    
+    if strfind(tline, 'Cmtot')
+        cmExp = 'Cmtot =  ';
+        [cmMatch,cmNoMatch] = regexp(tline,cmExp,'match','split');
+        cmMatch
+        cmNoMatch
+        Cmtot(iCJ, iflap, iAlpha) = str2double(cmNoMatch{1,2}(1:7));
     end
     
     tline = fgetl(fid);
