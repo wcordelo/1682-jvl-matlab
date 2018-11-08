@@ -27,7 +27,7 @@ ANGLE
 #
 JET
 #Jname  Jgain  SgnDup   hjet   Nchordwise  Cspace
-CJet    1.0    +1.0     0.34   12          1.0
+CJet    1.0    +1.0     0.27   12          1.0
 
 #----------------------------------------------------------
 SECTION
@@ -70,7 +70,7 @@ ANGLE
 #
 JET
 #Jname  Jgain  SgnDup   hjet   Nchordwise  Cspace
-CJet    1.0    +1.0     0.34   12          1.0
+CJet    1.0    +1.0     0.27   12          1.0
 
 #----------------------------------------------------------
 SECTION
