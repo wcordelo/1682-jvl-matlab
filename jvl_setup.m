@@ -44,15 +44,12 @@ config  = 'subscale';
 % alpha   = [0 1 2 3 4 5 6 7 8 9 10]; % angle of attack sweep range [deg]
 % flap    = [0 10 20 30 40 50]; % flap angle sweep range [deg]
 
-alpha   = [-15:1:15]; % deg
-% alpha = [0:1:3];
-% flap = [-60, 60];
-flap    = [-10:5:90]; % deg
+alpha   = [-20:1:20]; % deg
+flap    = [0:5:120]; % deg
+cjet    = [0:1:12]; % Delta CJ sweep range [-]
 aile    = 0; % deg
 elev    = 0; % deg
 rudd    = 0; % deg
-% cjet = [5, 10];
-cjet    = [0:1:20]; % Delta CJ sweep range [-]
 
 % Parameter and output arrays setup
 swp3    = length(alpha);
@@ -72,6 +69,11 @@ CDjet   = zeros(swp1,swp2,swp3);
 CDvis   = zeros(swp1,swp2,swp3);
 Cmtot = zeros(swp1,swp2,swp3);
 
+tCL = zeros(swp1,swp2,swp3);
+tCD = zeros(swp1,swp2,swp3);
+tCm = zeros(swp1,swp2,swp3);
+
+index = 1;
 % Sweep parameters
 for i = 1:swp1
     for j = 1:swp2
@@ -261,6 +263,24 @@ for i = 1:swp1
                     
 %                     CDvis(i, j, k) = str2double(cdvisNoMatch{1,2}(1:7));
                 end
+                
+                if strfind(tline, 'Horizontal Stabilizer')
+                    cHExp = 'Horizontal Stabilizer';
+                    [cHMatch,cHNoMatch] = regexp(tline,cHExp,'match','split');        
+                    
+                    if index == 1
+                        tCL(i, j, k) = str2double(cHNoMatch{1,1}(13:21));
+                        tCD(i, j, k) = str2double(cHNoMatch{1,1}(21:29));
+                        tCm(i, j, k) = str2double(cHNoMatch{1,1}(30:36));
+         
+                        index = index + 1; 
+            
+                    elseif index == 4
+                        index = 1;
+                    else
+                        index = index + 1;
+                    end
+                end
                                
                 tline = fgetl(fileID);
             end
@@ -271,4 +291,4 @@ for i = 1:swp1
     end
 end
 
-save polardata2.mat CLtot CXtot CJtot Cmtot flap alpha
+save polardata3.mat CLtot CXtot CJtot Cmtot flap alpha tCL tCD tCm
