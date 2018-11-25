@@ -44,40 +44,44 @@ config  = 'subscale';
 % alpha   = [0 1 2 3 4 5 6 7 8 9 10]; % angle of attack sweep range [deg]
 % flap    = [0 10 20 30 40 50]; % flap angle sweep range [deg]
 
-alpha   = [-15:1:15]; % deg
-% alpha = [0:1:3];
-% flap = [-60, 60];
-flap    = [-10:5:90]; % deg
-aile    = 0; % deg
-elev    = 0; % deg
+alpha   = [-20:1:20]; % deg
+flap    = [0:5:120]; % deg
+cjet    = [0:1:12]; % Delta CJ sweep range [-]
+elev    = [-100:1:100]; % deg
 rudd    = 0; % deg
-% cjet = [5, 10];
-cjet    = [0:1:20]; % Delta CJ sweep range [-]
+aile    = 0; % deg
 
 % Parameter and output arrays setup
+swp4    = length(elev);
 swp3    = length(alpha);
 swp2    = length(flap);
 swp1    = length(cjet);
-CJet = zeros(swp1,swp2,swp3);
-CJtot   = zeros(swp1,swp2,swp3);
-CXtot   = zeros(swp1,swp2,swp3);
-CYtot   = zeros(swp1,swp2,swp3);
-CZtot   = zeros(swp1,swp2,swp3);
-CLtot   = zeros(swp1,swp2,swp3);
-CDtot   = zeros(swp1,swp2,swp3);
-CLcir   = zeros(swp1,swp2,swp3);
-CLjet   = zeros(swp1,swp2,swp3);
-CDind   = zeros(swp1,swp2,swp3);
-CDjet   = zeros(swp1,swp2,swp3);
-CDvis   = zeros(swp1,swp2,swp3);
-Cmtot = zeros(swp1,swp2,swp3);
+CJet = zeros(swp1,swp2,swp3,swp4);
+CJtot   = zeros(swp1,swp2,swp3,swp4);
+CXtot   = zeros(swp1,swp2,swp3,swp4);
+CYtot   = zeros(swp1,swp2,swp3,swp4);
+CZtot   = zeros(swp1,swp2,swp3,swp4);
+CLtot   = zeros(swp1,swp2,swp3,swp4);
+CDtot   = zeros(swp1,swp2,swp3,swp4);
+CLcir   = zeros(swp1,swp2,swp3,swp4);
+CLjet   = zeros(swp1,swp2,swp3,swp4);
+CDind   = zeros(swp1,swp2,swp3,swp4);
+CDjet   = zeros(swp1,swp2,swp3,swp4);
+CDvis   = zeros(swp1,swp2,swp3,swp4);
+Cmtot = zeros(swp1,swp2,swp3,swp4);
 
+tCL = zeros(swp1,swp2,swp3,swp4);
+tCD = zeros(swp1,swp2,swp3,swp4);
+tCm = zeros(swp1,swp2,swp3,swp4);
+
+index = 1;
 % Sweep parameters
 for i = 1:swp1
     for j = 1:swp2
         for k = 1:swp3
+            for m = 1:swp4
             
-            [fileout] = jvl_run(config,alpha(k),flap(j),aile,elev,rudd,cjet(i),i,j,k) % run JVL
+            [fileout] = jvl_run(config,alpha(k),flap(j),aile,elev(m),rudd,cjet(i),i,j,k,m) % run JVL
             
             fileID = fopen(fileout,'r'); % open output file
             
@@ -94,9 +98,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(clNoMatch) == 2 
-                        CLtot(i, j, k) = str2double(clNoMatch{1,2}(1:7));
+                        CLtot(i, j, k, m) = str2double(clNoMatch{1,2}(1:7));
                     else
-                        CLtot(i, j, k) = str2double(clNoMatch{1,1}(11:18));
+                        CLtot(i, j, k, m) = str2double(clNoMatch{1,1}(11:18));
                     end
                 end
                 
@@ -107,9 +111,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cjtotNoMatch) == 2 
-                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,2}(1:7));
+                        CJtot(i, j, k, m) = str2double(cjtotNoMatch{1,2}(1:7));
                     else
-                        CJtot(i, j, k) = str2double(cjtotNoMatch{1,1}(11:18));
+                        CJtot(i, j, k, m) = str2double(cjtotNoMatch{1,1}(11:18));
                     end
                 end
                 
@@ -120,9 +124,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cjetNoMatch) == 2 
-                        CJet(i, j, k) = str2double(cjetNoMatch{1,2}(1:7));
+                        CJet(i, j, k, m) = str2double(cjetNoMatch{1,2}(1:7));
                     else
-                        CJet(i, j, k) = str2double(cjetNoMatch{1,1}(11:18));
+                        CJet(i, j, k, m) = str2double(cjetNoMatch{1,1}(11:18));
                     end
                 end
                 
@@ -133,9 +137,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cxNoMatch) == 2 
-                        CXtot(i, j, k) = str2double(cxNoMatch{1,2}(1:7));
+                        CXtot(i, j, k, m) = str2double(cxNoMatch{1,2}(1:7));
                     else
-                        CXtot(i, j, k) = str2double(cxNoMatch{1,1}(11:18));
+                        CXtot(i, j, k, m) = str2double(cxNoMatch{1,1}(11:18));
                     end
 %                     CXtot(i, j, k) = str2double(cxNoMatch{1,2}(1:7));
                 end
@@ -146,9 +150,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cyNoMatch) == 2 
-                        CYtot(i, j, k) = str2double(cyNoMatch{1,2}(1:7));
+                        CYtot(i, j, k, m) = str2double(cyNoMatch{1,2}(1:7));
                     else
-                        CYtot(i, j, k) = str2double(cyNoMatch{1,1}(11:18));
+                        CYtot(i, j, k, m) = str2double(cyNoMatch{1,1}(11:18));
                     end
                     
 %                     CYtot(i, j, k) = str2double(cyNoMatch{1,2}(1:7));
@@ -160,9 +164,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(czNoMatch) == 2 
-                        CZtot(i, j, k) = str2double(czNoMatch{1,2}(1:7));
+                        CZtot(i, j, k, m) = str2double(czNoMatch{1,2}(1:7));
                     else
-                        CZtot(i, j, k) = str2double(czNoMatch{1,1}(11:18));
+                        CZtot(i, j, k, m) = str2double(czNoMatch{1,1}(11:18));
                     end
                     
 %                     CZtot(i, j, k) = str2double(czNoMatch{1,2}(1:7));
@@ -174,9 +178,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cmNoMatch) == 2 
-                        Cmtot(i, j, k) = str2double(cmNoMatch{1,2}(1:7));
+                        Cmtot(i, j, k, m) = str2double(cmNoMatch{1,2}(1:7));
                     else
-                        Cmtot(i, j, k) = str2double(cmNoMatch{1,1}(11:18));
+                        Cmtot(i, j, k, m) = str2double(cmNoMatch{1,1}(11:18));
                     end
                     
 %                     CZtot(i, j, k) = str2double(czNoMatch{1,2}(1:7));
@@ -188,9 +192,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cdNoMatch) == 2
-                        CDtot(i, j, k) = str2double(cdNoMatch{1,2}(1:7));
+                        CDtot(i, j, k, m) = str2double(cdNoMatch{1,2}(1:7));
                     else
-                        CDtot(i, j, k) = str2double(cdNoMatch{1,1}(11:18));
+                        CDtot(i, j, k, m) = str2double(cdNoMatch{1,1}(11:18));
                     end
                     
                 end
@@ -201,9 +205,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(clcirNoMatch) == 2
-                        CLcir(i, j, k) = str2double(clcirNoMatch{1,2}(1:7));
+                        CLcir(i, j, k, m) = str2double(clcirNoMatch{1,2}(1:7));
                     else
-                        CLcir(i, j, k) = str2double(clcirNoMatch{1,1}(11:18));
+                        CLcir(i, j, k, m) = str2double(clcirNoMatch{1,1}(11:18));
                     end
                     
                 end
@@ -214,9 +218,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsingﬂ
                     if length(cljetNoMatch) == 2
-                        CLjet(i, j, k) = str2double(cljetNoMatch{1,2}(1:7));
+                        CLjet(i, j, k, m) = str2double(cljetNoMatch{1,2}(1:7));
                     else
-                        CLjet(i, j, k) = str2double(cljetNoMatch{1,1}(11:18));
+                        CLjet(i, j, k, m) = str2double(cljetNoMatch{1,1}(11:18));
                     end
                     
                 end
@@ -227,9 +231,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cdindNoMatch) == 2
-                        CDind(i, j, k) = str2double(cdindNoMatch{1,2}(1:7));
+                        CDind(i, j, k, m) = str2double(cdindNoMatch{1,2}(1:7));
                     else
-                        CDind(i, j, k) = str2double(cdindNoMatch{1,1}(11:18));
+                        CDind(i, j, k, m) = str2double(cdindNoMatch{1,1}(11:18));
                     end
                     
 %                     CDind(i, j, k) = str2double(cdindNoMatch{1,2}(1:7));
@@ -241,9 +245,9 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cdjetNoMatch) == 2
-                        CDjet(i, j, k) = str2double(cdjetNoMatch{1,2}(1:7));
+                        CDjet(i, j, k, m) = str2double(cdjetNoMatch{1,2}(1:7));
                     else
-                        CDjet(i, j, k) = str2double(cdjetNoMatch{1,1}(11:18));
+                        CDjet(i, j, k, m) = str2double(cdjetNoMatch{1,1}(11:18));
                     end
                     
                 end
@@ -254,21 +258,40 @@ for i = 1:swp1
                     
                     % Needed to account for discrepancy in file parsing
                     if length(cdvisNoMatch) == 2
-                        CDvis(i, j, k) = str2double(cdvisNoMatch{1,2}(1:7));
+                        CDvis(i, j, k, m) = str2double(cdvisNoMatch{1,2}(1:7));
                     else
-                        CDvis(i, j, k) = str2double(cdvisNoMatch{1,1}(11:18));
+                        CDvis(i, j, k, m) = str2double(cdvisNoMatch{1,1}(11:18));
                     end
                     
 %                     CDvis(i, j, k) = str2double(cdvisNoMatch{1,2}(1:7));
+                end
+                
+                if strfind(tline, 'Horizontal Stabilizer')
+                    cHExp = 'Horizontal Stabilizer';
+                    [cHMatch,cHNoMatch] = regexp(tline,cHExp,'match','split');        
+                    
+                    if index == 1
+                        tCL(i, j, k, m) = str2double(cHNoMatch{1,1}(13:21));
+                        tCD(i, j, k, m) = str2double(cHNoMatch{1,1}(21:29));
+                        tCm(i, j, k, m) = str2double(cHNoMatch{1,1}(30:36));
+         
+                        index = index + 1; 
+            
+                    elseif index == 4
+                        index = 1;
+                    else
+                        index = index + 1;
+                    end
                 end
                                
                 tline = fgetl(fileID);
             end
             
             fclose(fileID); % close output file
-    
+            
+            end
         end
     end
 end
 
-save polardata2.mat CLtot CXtot CJtot Cmtot flap alpha
+save polardata3.mat CLtot CXtot CJtot Cmtot flap alpha tCL tCD tCm
