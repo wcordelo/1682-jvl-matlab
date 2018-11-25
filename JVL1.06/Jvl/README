@@ -1,0 +1,57 @@
+
+General
+-------
+JVL and its plot library should compile on any Unix system 
+with normal Fortran-77, C, and X-Windows support. 
+
+
+Build sequence
+--------------
+
+1) Build Xplot11 library in  ./plotlib  ...
+
+ % cd plotlib
+ % edit Makefile  (set compiler flags for your system)
+ % make           (creates libPlt.a)
+
+
+2) Build Eispack library in ./eispack  ...
+
+ % cd eispack
+ % edit Makefile  (set compiler flags for your system)
+ % make           (creates eispack.a)
+
+
+3) Build JVL in ./bin  ...
+
+ % cd bin
+ % edit Makefile  (set compiler flags for your system)
+ % make jvl
+
+
+The executable will appear in the bin/ directory.
+
+
+Documentation
+-------------
+JVL is backwards-compatible with AVL, and will run usual AVL files 
+without jet flaps.  Hence, most of the user info is contained
+in the AVL User Guide avl_doc.txt  file.  The only new stuff is
+the specification of the jet flap momentum coefficients via
+direct or indirect constraints.
+
+If impatient, you can just run JVL in the runs/ directory, 
+which contains a simple jet-flap case:
+
+ % cd runs
+ % ../bin/jvl wing
+
+OPER
+D1 D1 10        ! set wing flap to 10 deg, which also will deflect the jet
+J1 J1 5         ! set jet momentum coefficient to CJ = 5
+X               ! execute calculation
+T               ! plot Trefftz Plane loading
+
+
+
+
