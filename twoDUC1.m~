@@ -21,17 +21,6 @@ clc;
 close all;
 set(0,'DefaultAxesFontSize',18);
 set(0,'DefaultTextFontSize',24);
-% clc
-% set(0,'DefaultAxesFontSize',18);
-% set(0,'DefaultTextFontSize',24);
-% set(0,'DefaultAxesFontName','Arial');
-% set(0,'DefaultTextFontName','Arial');
-% set(0,'DefaultLineLineWidth',3);
-% set(0,'DefaultAxesFontWeight','Bold');
-% set(0, 'DefaultFigurePosition', [2641 -29 960 984])
-% set(0, 'DefaultFigurePosition', [2641 -29 1920 984])
-
-% load ('constants.mat')
 
 % Parameters for evaluation
 config  = 'subscale';
@@ -44,7 +33,7 @@ config  = 'subscale';
 % alpha   = [0 1 2 3 4 5 6 7 8 9 10]; % angle of attack sweep range [deg]
 % flap    = [0 10 20 30 40 50]; % flap angle sweep range [deg]
 
-alpha   = [-20; % deg
+alpha   = [-20:1:20]; % deg
 flap    = [0:1:120]; % deg
 cjet    = [0:1:12]; % Delta CJ sweep range [-]
 elev    = [-100:1:100]; % deg
