@@ -37,32 +37,32 @@ aile    = 0; % deg
 swp3    = length(alpha);
 swp2    = length(flap);
 swp1    = length(cjet);
-% CJet = zeros(swp1,swp2,swp3,swp4);
-% CJtot   = zeros(swp1,swp2,swp3,swp4);
-% CXtot   = zeros(swp1,swp2,swp3,swp4);
-% CYtot   = zeros(swp1,swp2,swp3,swp4);
-% CZtot   = zeros(swp1,swp2,swp3,swp4);
-% CLtot   = zeros(swp1,swp2,swp3,swp4);
-% CDtot   = zeros(swp1,swp2,swp3,swp4);
-% CLcir   = zeros(swp1,swp2,swp3,swp4);
-% CLjet   = zeros(swp1,swp2,swp3,swp4);
-% CDind   = zeros(swp1,swp2,swp3,swp4);
-% CDjet   = zeros(swp1,swp2,swp3,swp4);
-% CDvis   = zeros(swp1,swp2,swp3,swp4);
-% Cmtot = zeros(swp1,swp2,swp3,swp4);
+CJet = zeros(swp1,swp2,swp3);
+CJtot   = zeros(swp1,swp2,swp3);
+CXtot   = zeros(swp1,swp2,swp3);
+CYtot   = zeros(swp1,swp2,swp3);
+CZtot   = zeros(swp1,swp2,swp3);
+CLtot   = zeros(swp1,swp2,swp3);
+CDtot   = zeros(swp1,swp2,swp3);
+CLcir   = zeros(swp1,swp2,swp3);
+CLjet   = zeros(swp1,swp2,swp3);
+CDind   = zeros(swp1,swp2,swp3);
+CDjet   = zeros(swp1,swp2,swp3);
+CDvis   = zeros(swp1,swp2,swp3);
+Cmtot = zeros(swp1,swp2,swp3);
 
-% tCL = zeros(swp1,swp2,swp3,swp4);
-% tCD = zeros(swp1,swp2,swp3,swp4);
-% tCm = zeros(swp1,swp2,swp3,swp4);
+tCL = zeros(swp1,swp2,swp3);
+tCD = zeros(swp1,swp2,swp3);
+tCm = zeros(swp1,swp2,swp3);
 
 index = 1;
 % Sweep parameters
 for i = 1:swp1
-    for j = 24:swp2
-        for k = 40:swp3
+    for j = 1:swp2
+        for k = 1:swp3
 %             for m = 118:swp4
             
-            [fileout] = jvl_run(config,alpha(k),flap(j),aile,elev,rudd,cjet(i),i,j,k,m) % run JVL
+            [fileout] = jvl_run(config,alpha(k),flap(j),aile,elev,rudd,cjet(i),i,j,k) % run JVL
             
             fileID = fopen(fileout,'r'); % open output file
             
@@ -275,4 +275,4 @@ for i = 1:swp1
     end
 end
 
-save polardata3.mat CLtot CXtot CJtot Cmtot flap alpha tCL tCD tCm
+save data_UC1.mat CJet CJtot CLtot CXtot CYtot CZtot CDtot CJtot Cmtot flap alpha cjet elev tCL tCD tCm

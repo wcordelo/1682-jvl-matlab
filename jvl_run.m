@@ -1,5 +1,5 @@
 
-function [fileout] = jvl_run(config,alpha,flap,aile,elev,rudd,cjet,i,j,k,m)
+function [fileout] = jvl_run(config,alpha,flap,aile,elev,rudd,cjet,i,j,k)
 %--------------------------------------------------------------------
 % Run JVL with basic inputs
 %
@@ -24,7 +24,7 @@ end
 avlin   = ['LOAD ' config '.avl'];
 massin  = ['MASS ' config '.mass'];
 % fileout = [config '_' num2str(i) '_' num2str(j) '_' num2str(k) '.txt'];
-fileout = [config 'jet' num2str(k) 'flap' num2str(j) 'alpha' num2str(i) 'elev' num2str(m) '.txt']
+fileout = [config 'jet' num2str(k) 'flap' num2str(j) 'alpha' num2str(i) '.txt']
 
 Ain     = ['A A ' num2str(alpha)];
 D1in    = ['D1 D1 ' num2str(flap)];
